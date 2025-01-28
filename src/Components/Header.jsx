@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { AppBar, Container, Toolbar, Typography, Box, IconButton, Menu, MenuItem, Button } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { ShoppingCartRounded } from '@mui/icons-material';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [anchorElNewArrivals, setAnchorElNewArrivals] = useState(null);
@@ -10,6 +12,7 @@ const Header = () => {
   const [mobileMenuAnchor, setMobileMenuAnchor] = useState(null);
   const [mobileSubmenuAnchor, setMobileSubmenuAnchor] = useState(null);
   const [submenuItem, setSubmenuItem] = useState(null);
+
 
   // Handlers for "New Arrivals" dropdown
   const handleOpenNewArrivalsMenu = (event) => setAnchorElNewArrivals(event.currentTarget);
@@ -97,7 +100,10 @@ const Header = () => {
               <MenuItem onClick={handleCloseWomenMenu}>Shirts</MenuItem>
               <MenuItem onClick={handleCloseWomenMenu}>Trousers</MenuItem>
             </Menu>
-            <ShoppingCartRounded sx={{ mt: 1, marginLeft: '1000px'}} />
+            <Link to={'/login'}> <AccountCircleIcon sx={{ color:`white`, mt: 1, mx:2, marginLeft: '1000px' }} /></Link>
+           
+            <ShoppingCartRounded sx={{ mt: 1}} />
+           
           </Box>
 
 
@@ -134,6 +140,7 @@ const Header = () => {
                 Women
               </MenuItem>
               <ShoppingCartRounded sx={{ mt: 1, marginLeft: '1000px'}} />
+              <AccountCircleIcon sx={{ mt: 1}} />
             </Menu>
 
             {/* Submenu on right side */}

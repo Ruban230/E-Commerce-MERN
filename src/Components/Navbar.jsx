@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,11 +11,11 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
-  const [anchorElDropdown, setAnchorElDropdown] = useState(null); // Manage dropdown state
-  // const navigate = useNavigate();
+  const [anchorElDropdown, setAnchorElDropdown] = useState({});
 
   const pages = ['New Arrivals', 'Women', 'Men', 'Sale'];
   const dropdownItems = {
@@ -37,25 +36,29 @@ const Navbar = () => {
     ],
   };
 
-  const handleDropdownOpen = (event) => {
-    setAnchorElDropdown(event.currentTarget);
-  };
-
-  const handleDropdownClose = () => {
-    setAnchorElDropdown(null);
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
 
+  const handleDropdownOpen = (event, page) => {
+    setAnchorElDropdown((prev) => ({ ...prev, [page]: event.currentTarget }));
+  };
+
+  const handleDropdownClose = (page) => {
+    setAnchorElDropdown((prev) => ({ ...prev, [page]: null }));
+  };
+
   return (
-    <AppBar position="static" sx={{ backgroundColor: `black` }}>
+    <AppBar position="static" sx={{ backgroundColor: 'black' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <img
             src="/1.png"
-            alt=""
+            alt="Logo"
             style={{ width: '60px', height: '60px', marginRight: '8px' }}
           />
           <Typography
@@ -76,14 +79,14 @@ const Navbar = () => {
             DRIP
           </Typography>
 
-          {/* Responsive Menu */}
+          {/* Mobile Menu */}
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               aria-label="menu"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              onClick={(e) => setAnchorElNav(e.currentTarget)}
+              onClick={handleOpenNavMenu}
               color="inherit"
             >
               <MenuIcon />
@@ -106,13 +109,7 @@ const Navbar = () => {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  {dropdownItems[page] ? (
-                    <Button onClick={handleDropdownOpen} sx={{ color: 'black' }}>
-                      {page}
-                    </Button>
-                  ) : (
-                    <Typography textAlign="center">{page}</Typography>
-                  )}
+                  {page}
                 </MenuItem>
               ))}
             </Menu>
@@ -125,17 +122,17 @@ const Navbar = () => {
                 {dropdownItems[page] ? (
                   <>
                     <Button
-                      onClick={handleDropdownOpen}
+                      onClick={(e) => handleDropdownOpen(e, page)}
                       sx={{ my: 2, color: 'white', display: 'block' }}
                     >
                       {page}
                     </Button>
                     <Menu
-                      anchorEl={anchorElDropdown}
-                      open={Boolean(anchorElDropdown)}
-                      onClose={handleDropdownClose}
+                      anchorEl={anchorElDropdown[page]}
+                      open={Boolean(anchorElDropdown[page])}
+                      onClose={() => handleDropdownClose(page)}
                       anchorOrigin={{
-                        vertical: 'top',
+                        vertical: 'bottom',
                         horizontal: 'left',
                       }}
                       transformOrigin={{
@@ -146,10 +143,7 @@ const Navbar = () => {
                       {dropdownItems[page].map((item) => (
                         <MenuItem
                           key={item.label}
-                          onClick={() => {
-                            // navigate(item.link);
-                            handleDropdownClose();
-                          }}
+                          onClick={() => handleDropdownClose(page)}
                         >
                           {item.label}
                         </MenuItem>
@@ -158,7 +152,6 @@ const Navbar = () => {
                   </>
                 ) : (
                   <Button
-                    // onClick={() => navigate(`/${page.toLowerCase()}`)}
                     sx={{ my: 2, color: 'white', display: 'block' }}
                   >
                     {page}
@@ -168,10 +161,22 @@ const Navbar = () => {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
+          {/* Icons */}
+          <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 0 }}>
+            <Typography
+              variant="body1"
+              sx={{ color: 'white', marginRight: 1, fontWeight: 'bold' }}
+            >
+              3
+            </Typography>
             <Tooltip title="Open cart">
               <IconButton sx={{ p: 0 }}>
-                <ShoppingCartIcon sx={{ fontSize: 30, color: `white` }} />
+                <ShoppingCartIcon sx={{ fontSize: 30, color: 'white' }} />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Account">
+              <IconButton sx={{ p: 0, marginLeft: 2 }}>
+                <AccountCircleIcon sx={{ fontSize: 30, color: 'white' }} />
               </IconButton>
             </Tooltip>
           </Box>

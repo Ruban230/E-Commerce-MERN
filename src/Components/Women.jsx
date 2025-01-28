@@ -26,7 +26,7 @@ const Women = () => {
                         </CardActions>
                     </Card>
                 </Grid>
-
+                   
                 {/* Card 2 */}
                 <Grid item xs={12} sm={6} md={3}>
                     <Card sx={{ maxWidth: 345 }}>
